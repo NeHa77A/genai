@@ -1,82 +1,201 @@
+<!-- <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Llama2</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <style>
+    body {
+      background-color: rgb(181, 247, 222);
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      margin-top: 50px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #submit-button {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+    }
+    #question {
+      font-size: 16px;
+      padding: 10px;
+    }
+    #response {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      min-height: 100px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .chat-container {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Chatbot</h1>
+    <div class="chat-container">
+      <div class="row">
+        <div class="col">
+          <div id="response"></div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-lg-9">
+        <input class="form-control" type="text" name="question" id="question" placeholder="Ask me anything...">
+      </div>
+      <div class="col-lg-3">
+        <button type="button" class="btn btn-primary" id="submit-button">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script>
+    jQuery(document).ready(function() {
+      $("#submit-button").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/chatbot",
+          data: {
+            question: $("#question").val()
+          },
+          success: function(result) {
+            $("#response").append("<br><strong>Me:</strong> " + $("#question").val() + "<br><strong>Llama:</strong> " + result.response);
+            $("#question").val("");
+            $('#response').scrollTop($('#response')[0].scrollHeight);
+          },
+          error: function(result) {
+            alert('error');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Llama2</title>
 
-    <title>Llama2</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-  </head>
-  <body style="background-color:rgb(181, 247, 222);">
-    <div class="container">
-      <h1>My chatbot</h1>
-      <br>
-      <hr>
-      <br>
-
-        <div class="row">
-          <div class="col-lg-9">
-            <input class="form-control" type="text" name="question" id="question">
-            
-          </div>
-          <div class="col-lg-3">
-            <!-- <button class="btn btn-primary btn-block" id="submit-button">Send</button> -->
-            <button type="button" class="btn btn-primary" id="submit-button">Send</button>
-          </div>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <style>
+    body {
+      background-color: rgb(181, 247, 222);
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      margin-top: 50px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #submit-button {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+    }
+    #question {
+      font-size: 16px;
+      padding: 10px;
+    }
+    #response {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      min-height: 100px;
+      max-height: 400px;
+      overflow-y: auto;
+      line-height: 1.5; /* Adjusts the spacing between lines */
+    }
+    .chat-container {
+      margin-bottom: 20px;
+    }
+    .chat-message {
+      margin-bottom: 5px; /* Adjusts the spacing between messages */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Chatbot</h1>
+    <div class="chat-container">
+      <div class="row">
+        <div class="col">
+          <div id="response"></div>
         </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <p id="response"></p>
-          </div>
-        </div>
-
+      </div>
     </div>
+    <hr>
+    <div class="row">
+      <div class="col-lg-9">
+        <input class="form-control" type="text" name="question" id="question" placeholder="Ask me anything...">
+      </div>
+      <div class="col-lg-3">
+        <button type="button" class="btn btn-primary" id="submit-button">Send</button>
+      </div>
+    </div>
+  </div>
 
-    <script src="/static/jquery.min.js" ></script>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-
-    <script>
-
-
-      jQuery(document).ready(function() {
-
-        $("#submit-button").click(function(e) {
-          e.preventDefault();
-
-
-          $.ajax({
-              type: "POST",
-              url: "/chatbot",
-              data: {
-                  question: $("#question").val()
-              },
-              success: function(result) {
-                $("#response").append("<br>Me: "+$("#question").val()+ "<br> Llama: "+result.response);
-                $("#question").val("")
-              },
-              error: function(result) {
-                  alert('error');
-              }
-          });
-
-
-
+  <script src="/static/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script>
+    jQuery(document).ready(function() {
+      $("#submit-button").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/chatbot",
+          data: {
+            question: $("#question").val()
+          },
+          success: function(result) {
+            $("#response").append("<div class='chat-message'><strong>Me:</strong> " + $("#question").val() + "</div><div class='chat-message'><strong>Llama:</strong> " + result.response + "</div>");
+            $("#question").val("");
+            $('#response').scrollTop($('#response')[0].scrollHeight);
+          },
+          error: function(result) {
+            alert('error');
+          }
         });
-
       });
-
-
-    </script>
-
-  </body>
+    });
+  </script>
+</body>
 </html>

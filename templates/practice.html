@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llama2 Chatbot</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: rgb(181, 247, 222);
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            width: 400px;
+            max-width: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+        }
+        .chat-header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .chat-body {
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+        .chat-message.user .message {
+            text-align: right;
+            background-color: #e1ffc7;
+        }
+        .chat-message.bot .message {
+            text-align: left;
+            background-color: #f1f1f1;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .chat-footer {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+        .chat-footer input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-right: 1px solid #ddd;
+        }
+        .chat-footer button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Chatbot</h1>
+        <div class="chat-container">
+            <div class="chat-header">
+                Chatbot
+            </div>
+            <div class="chat-body" id="chat-body">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="chat-footer">
+                <input type="text" class="form-control" name="question" id="question" placeholder="Type your message here...">
+                <button type="button" class="btn btn-primary" id="submit-button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7U5QBI5J5Y5bc5X1J1I5D6i0Yg2D3D6iUqD" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $("#submit-button").click(function(e) {
+                e.preventDefault();
+                var userQuestion = $("#question").val();
+                if (userQuestion.trim() === '') return;
+
+                appendMessage(userQuestion, 'user');
+                console.log("Sending question: " + userQuestion); // Debugging line
+
+                $.ajax({
+                    type: "POST",
+                    url: "/chatbot",
+                    data: { question: userQuestion },
+                    success: function(result) {
+                        console.log("Response received: ", result); // Debugging line
+                        appendMessage(result.response, 'bot');
+                        $("#question").val("");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error occurred: ", status, error); // Debugging line
+                        alert('Error: ' + xhr.responseText);
+                    }
+                });
+            });
+
+            function appendMessage(message, sender) {
+                const chatBody = document.getElementById('chat-body');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${sender}`;
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message';
+                messageContent.innerText = message;
+                messageDiv.appendChild(messageContent);
+                chatBody.appendChild(messageDiv);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
