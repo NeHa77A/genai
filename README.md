@@ -69,3 +69,4 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+![](https://raw.githubusercontent.com/NeHa77A/genai/main/output.png)
